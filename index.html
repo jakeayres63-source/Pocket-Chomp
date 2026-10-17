@@ -91,6 +91,16 @@ button.k.play.on { background: var(--t3); color: #10200a; box-shadow: 0 3px 0 #4
 .k.mic.on { background: var(--rec); color: #fff; box-shadow: 0 3px 0 #a32634; }
 .k input[type=file] { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
 
+.ktabs { display: flex; gap: 6px; padding: 0 4px; }
+.ktabs .chip { flex: 1 1 0; }
+.knobs[hidden] { display: none !important; }
+.fx-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 2px 4px 0; grid-column: 1 / -1; }
+.fx-foot .k { min-height: 32px; font-size: 10px; padding: 0 10px; }
+.fx-foot .lbl { text-transform: none; letter-spacing: .02em; font-weight: 600; font-size: 11px; }
+.oct { display: flex; align-items: center; gap: 6px; }
+.oct[hidden] { display: none !important; }
+.oct .k { min-height: 34px; min-width: 40px; padding: 0 8px; font-size: 13px; }
+.oct output { font-family: var(--f-px); font-size: 12px; min-width: 30px; text-align: center; }
 .knobs { display: grid; grid-template-columns: 1fr; gap: 0 18px; padding: 2px 4px; }
 @media (min-width: 470px) { .knobs { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 .knob { display: grid; grid-template-columns: 64px 1fr 36px; align-items: center; gap: 6px; min-width: 0; }
@@ -232,10 +242,26 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
     <button class="k" id="clrBtn" title="Clear this pad's steps in the current pattern">Clear steps</button>
   </div>
 
-  <div class="knobs">
+  <div class="ktabs" role="tablist">
+    <button class="chip on" role="tab" aria-selected="true" data-kt="sound">Sound</button>
+    <button class="chip" role="tab" aria-selected="false" data-kt="fx">Pad FX</button>
+    <button class="chip" role="tab" aria-selected="false" data-kt="song">Song</button>
+  </div>
+  <div class="knobs" id="kt-sound">
     <div class="knob"><span class="lbl">Volume</span><input type="range" id="vol" min="0" max="1.5" step="0.01" aria-label="Pad volume"><output id="volO"></output></div>
     <div class="knob"><span class="lbl">Pitch</span><input type="range" id="pitch" min="-24" max="24" step="1" aria-label="Pad pitch in semitones"><output id="pitchO"></output></div>
     <div class="knob"><span class="lbl">Pan</span><input type="range" id="pan" min="-1" max="1" step="0.05" aria-label="Pad pan"><output id="panO"></output></div>
+  </div>
+  <div class="knobs" id="kt-fx" hidden>
+    <div class="knob"><span class="lbl">Filter</span><input type="range" id="filter" min="-1" max="1" step="0.01" aria-label="Filter: left is low-pass, right is high-pass, middle is off"><output id="filterO"></output></div>
+    <div class="knob"><span class="lbl">Reso</span><input type="range" id="reso" min="0" max="1" step="0.01" aria-label="Filter resonance"><output id="resoO"></output></div>
+    <div class="knob"><span class="lbl">Drive</span><input type="range" id="drive" min="0" max="1" step="0.01" aria-label="Drive (distortion)"><output id="driveO"></output></div>
+    <div class="knob"><span class="lbl">Crush</span><input type="range" id="crush" min="0" max="1" step="0.01" aria-label="Bitcrush"><output id="crushO"></output></div>
+    <div class="knob"><span class="lbl">Delay</span><input type="range" id="delay" min="0" max="1" step="0.01" aria-label="Delay send"><output id="delayO"></output></div>
+    <div class="knob"><span class="lbl">Reverb</span><input type="range" id="verb" min="0" max="1" step="0.01" aria-label="Reverb send"><output id="verbO"></output></div>
+    <div class="fx-foot"><span class="lbl">Delay follows the tempo (dotted 1/8)</span><button class="k" id="fxReset">Reset FX</button></div>
+  </div>
+  <div class="knobs" id="kt-song" hidden>
     <div class="knob"><span class="lbl">Tempo</span><input type="range" id="bpm" min="50" max="200" step="1" aria-label="Tempo in BPM"><output id="bpmO"></output></div>
     <div class="knob"><span class="lbl">Swing</span><input type="range" id="swing" min="0" max="0.6" step="0.01" aria-label="Swing amount"><output id="swingO"></output></div>
     <div class="knob"><span class="lbl">Master</span><input type="range" id="master" min="0" max="1" step="0.01" aria-label="Master volume"><output id="masterO"></output></div>
@@ -248,6 +274,11 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
     <button class="k" id="modeKeys" aria-pressed="false">Keys</button>
     <span class="spacer"></span>
     <span class="lbl" id="modeHint">Tap to toggle · hold for softer</span>
+    <div class="oct" id="octBox" hidden>
+      <button class="k" id="octDn" aria-label="Octave down">−</button>
+      <output id="octO" aria-live="polite">C4</output>
+      <button class="k" id="octUp" aria-label="Octave up">+</button>
+    </div>
   </div>
   <div class="steps" id="steps"></div>
 
@@ -257,7 +288,8 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
     <span><b>Record:</b> pick a pad, tap Record sample, make a sound, tap again to stop. Silence is trimmed, and every recording is kept in My Recordings.</span>
     <span><b>Library:</b> hold any pad (or tap Sound library) to swap its sound. Stock sounds are always there to bring back.</span>
     <span><b>Stack:</b> every pad is its own track, so all eight play together. Tap a name in the grid to mute it.</span>
-    <span><b>Keys:</b> play the selected sample chromatically. With Live on, what you play while the loop runs is written in.</span>
+    <span><b>Keys:</b> play the selected sample chromatically, and shift octaves with − and +. With Live on, what you play while the loop runs is written in.</span>
+    <span><b>Pad FX:</b> each pad has its own filter, drive, bitcrush, delay and reverb. Move them while the loop plays.</span>
     <span>No sound on an iPhone? Turn the silent switch off.</span>
   </div>
 </div>
@@ -312,6 +344,45 @@ const masterGain = ctx.createGain();
 const comp = ctx.createDynamicsCompressor();
 comp.threshold.value = -10; comp.ratio.value = 4; comp.attack.value = 0.003; comp.release.value = 0.2;
 masterGain.connect(comp).connect(ctx.destination);
+
+// shared effect returns: a tempo-synced delay and a small room reverb
+const delayIn = ctx.createGain(), delayNode = ctx.createDelay(2), delayFb = ctx.createGain(), delayTone = ctx.createBiquadFilter();
+delayTone.type = 'lowpass'; delayTone.frequency.value = 3200; delayFb.gain.value = 0.42;
+delayIn.connect(delayNode); delayNode.connect(delayTone); delayTone.connect(delayFb); delayFb.connect(delayNode); delayTone.connect(masterGain);
+const verbIn = ctx.createGain(), verb = ctx.createConvolver(), verbOut = ctx.createGain();
+verbOut.gain.value = 0.9;
+verb.buffer = (() => {
+  const len = Math.floor(ctx.sampleRate * 2.2), ir = ctx.createBuffer(2, len, ctx.sampleRate);
+  for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); let lp = 0; for (let i = 0; i < len; i++) { lp += 0.35 * ((Math.random() * 2 - 1) - lp); d[i] = lp * Math.pow(1 - i / len, 2.6); } }
+  return ir;
+})();
+verbIn.connect(verb).connect(verbOut).connect(masterGain);
+const syncDelay = () => delayNode.delayTime.setTargetAtTime(Math.min(1.9, (60 / song.bpm) * 0.75), ctx.currentTime, 0.05);
+
+// per-pad chain: voices → drive → crush → filter → level → master, with delay/reverb sends
+function shaperCurve(fn) { const n = 2048, c = new Float32Array(n); for (let i = 0; i < n; i++) c[i] = fn(i / (n - 1) * 2 - 1); return c; }
+function makeChain() {
+  const input = ctx.createGain(), drive = ctx.createWaveShaper(), crush = ctx.createWaveShaper(), filt = ctx.createBiquadFilter(), out = ctx.createGain(), dSend = ctx.createGain(), rSend = ctx.createGain();
+  drive.oversample = '2x';
+  input.connect(drive).connect(crush).connect(filt).connect(out);
+  out.connect(masterGain); out.connect(dSend).connect(delayIn); out.connect(rSend).connect(verbIn);
+  return { input, drive, crush, filt, out, dSend, rSend, k: {} };
+}
+const chains = [];
+function applyFx(i) {
+  const t = tracks[i], ch = chains[i]; if (!ch) return;
+  const now = ctx.currentTime, f = t.filter || 0, res = t.reso || 0, dr = t.drive || 0, cr = t.crush || 0;
+  if (ch.k.drive !== dr) { ch.k.drive = dr; ch.drive.curve = dr > 0 ? shaperCurve((x) => { const k = 1 + dr * 30; return Math.tanh(k * x) / Math.tanh(k); }) : null; }
+  if (ch.k.crush !== cr) { ch.k.crush = cr; const steps = Math.round(Math.pow(2, 12 - cr * 10)); ch.crush.curve = cr > 0 ? shaperCurve((x) => Math.round(x * steps) / steps) : null; }
+  const type = f < -0.01 ? 'lowpass' : f > 0.01 ? 'highpass' : 'lowpass';
+  if (ch.filt.type !== type) ch.filt.type = type;
+  const freq = f < -0.01 ? 60 * Math.pow(20000 / 60, 1 + f) : f > 0.01 ? 20 * Math.pow(8000 / 20, f) : 20000;
+  ch.filt.frequency.setTargetAtTime(freq, now, 0.02);
+  ch.filt.Q.setTargetAtTime(Math.abs(f) > 0.01 ? 0.7 + res * 14 : 0.7, now, 0.02);
+  ch.out.gain.setTargetAtTime(1 / (1 + dr * 1.2), now, 0.02);
+  ch.dSend.gain.setTargetAtTime((t.delay || 0) * 0.8, now, 0.02);
+  ch.rSend.gain.setTargetAtTime((t.verb || 0) * 1.1, now, 0.02);
+}
 const unlock = () => { if (ctx.state !== 'running') ctx.resume(); };
 document.addEventListener('pointerdown', unlock, true);
 document.addEventListener('keydown', unlock, true);
@@ -329,11 +400,14 @@ function factoryBuffer(bankId, idx) {
 }
 
 // ---------- state ----------
-const freshTrack = (i) => ({ name: '', vol: 0.9, pitch: 0, pan: 0, start: 0, end: 1, reverse: false, choke: false, mute: false, custom: false, src: { k: 'f', bank: 'basics', i }, buf: null, rbuf: null, peaks: null });
+const FX_KEYS = ['filter', 'reso', 'drive', 'crush', 'delay', 'verb'];
+const freshTrack = (i) => ({ name: '', vol: 0.9, pitch: 0, pan: 0, filter: 0, reso: 0.2, drive: 0, crush: 0, delay: 0, verb: 0, start: 0, end: 1, reverse: false, choke: false, mute: false, custom: false, src: { k: 'f', bank: 'basics', i }, buf: null, rbuf: null, peaks: null });
 const tracks = Array.from({ length: NT }, (_, i) => freshTrack(i));
+for (let i = 0; i < NT; i++) chains.push(makeChain());
 const emptyPattern = () => Array.from({ length: NT }, () => Array(NS).fill(null));
 let patterns = Array.from({ length: NP }, emptyPattern);
 const song = { bpm: 96, swing: 0.12, master: 0.85, pat: 0 };
+let octave = 0;
 let sel = 0, mode = 'steps', playing = false, liveRec = false, queuedPat = null;
 
 function seedDemo() {
@@ -494,7 +568,7 @@ function playVoice(i, time, vel = 1, note = 0) {
   g.gain.linearRampToValueAtTime(0, time + realLen);
   let out = g;
   if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = t.pan; g.connect(p); out = p; }
-  src.connect(g); out.connect(masterGain);
+  src.connect(g); out.connect(chains[i].input);
   if (t.choke) {
     for (const v of live[i]) { try { v.g.gain.cancelScheduledValues(time); v.g.gain.setTargetAtTime(0, time, 0.008); v.src.stop(time + 0.05); } catch (e) {} }
     live[i] = [];
@@ -637,7 +711,7 @@ function drawScreen() {
   g2.fillText((playing ? '▶ ' : '■ ') + 'PAT ' + 'ABCD'[song.pat] + '  ' + song.bpm + ' BPM', W - 8, 6);
   g2.textAlign = 'left'; g2.fillStyle = '#5d6372';
   const len = t.buf ? ((t.end - t.start) * t.buf.duration / Math.pow(2, t.pitch / 12)) : 0;
-  const tags = [t.buf ? len.toFixed(2) + 's' : '', t.pitch ? (t.pitch > 0 ? '+' : '') + t.pitch + 'st' : '', t.reverse ? 'REV' : '', t.choke ? 'CHOKE' : '', t.mute ? 'MUTED' : ''].filter(Boolean).join('  ');
+  const tags = [t.buf ? len.toFixed(2) + 's' : '', t.pitch ? (t.pitch > 0 ? '+' : '') + t.pitch + 'st' : '', t.reverse ? 'REV' : '', t.choke ? 'CHOKE' : '', Math.abs(t.filter || 0) > 0.01 ? (t.filter < 0 ? 'LP' : 'HP') : '', t.drive ? 'DRV' : '', t.crush ? 'CRSH' : '', t.delay ? 'DLY' : '', t.verb ? 'VRB' : '', t.mute ? 'MUTED' : ''].filter(Boolean).join(' ');
   g2.fillText(tags, 8, H - 13);
   // step dots along the bottom right
   const p = patterns[song.pat][sel];
@@ -684,7 +758,7 @@ function buildSteps() {
     let holdT = null, held = false;
     b.addEventListener('pointerdown', (e) => {
       e.preventDefault();
-      if (mode === 'keys') { trigger(sel, s); b.classList.add('hit'); setTimeout(() => b.classList.remove('hit'), 120); return; }
+      if (mode === 'keys') { trigger(sel, s + 12 * octave); b.classList.add('hit'); setTimeout(() => b.classList.remove('hit'), 120); return; }
       held = false;
       holdT = setTimeout(() => { held = true; cycleVel(s); }, 420);
     });
@@ -694,7 +768,7 @@ function buildSteps() {
     };
     b.addEventListener('pointerup', end);
     b.addEventListener('pointerleave', () => { if (holdT) { clearTimeout(holdT); holdT = null; } });
-    b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); mode === 'keys' ? trigger(sel, s) : toggleStep(sel, s); } });
+    b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); mode === 'keys' ? trigger(sel, s + 12 * octave) : toggleStep(sel, s); } });
     b.addEventListener('contextmenu', (e) => e.preventDefault());
     stepsEl.appendChild(b);
   }
@@ -705,7 +779,7 @@ function renderSteps() {
   [...stepsEl.children].forEach((b, s) => {
     b.className = 'step';
     if (mode === 'keys') {
-      const nm = NOTE_NAMES[s % 12] + (s >= 12 ? "'" : '');
+      const nm = NOTE_NAMES[s % 12] + (4 + octave + Math.floor(s / 12));
       b.classList.add('keyb'); if (nm.includes('#')) b.classList.add('sharp');
       b.textContent = nm; b.setAttribute('aria-label', `Play note ${nm}`);
     } else {
@@ -772,6 +846,10 @@ function renderSampleControls() {
   $('pan').value = t.pan; $('panO').textContent = t.pan === 0 ? 'C' : (t.pan < 0 ? 'L' : 'R') + Math.round(Math.abs(t.pan) * 100);
   $('revBtn').classList.toggle('on', t.reverse); $('revBtn').setAttribute('aria-pressed', String(t.reverse));
   $('chokeBtn').classList.toggle('on', t.choke); $('chokeBtn').setAttribute('aria-pressed', String(t.choke));
+  const pct = (v) => Math.round((v || 0) * 100);
+  const f = t.filter || 0;
+  $('filter').value = f; $('filterO').textContent = Math.abs(f) < 0.01 ? 'OFF' : (f < 0 ? 'LP' : 'HP') + pct(Math.abs(f));
+  for (const k of ['reso', 'drive', 'crush', 'delay', 'verb']) { $(k).value = t[k] || 0; $(k + 'O').textContent = pct(t[k]); }
   $('bpm').value = song.bpm; $('bpmO').textContent = song.bpm;
   $('swing').value = song.swing; $('swingO').textContent = Math.round(song.swing * 100) + '%';
   $('master').value = song.master; $('masterO').textContent = Math.round(song.master * 100);
@@ -934,7 +1012,9 @@ const bindRange = (id, fn) => $(id).addEventListener('input', (e) => { fn(parseF
 bindRange('vol', v => tracks[sel].vol = v);
 bindRange('pitch', v => tracks[sel].pitch = v);
 bindRange('pan', v => tracks[sel].pan = v);
-bindRange('bpm', v => song.bpm = v);
+FX_KEYS.forEach(k => bindRange(k, v => { tracks[sel][k] = v; applyFx(sel); }));
+$('filter').addEventListener('dblclick', () => { tracks[sel].filter = 0; applyFx(sel); renderSampleControls(); save(); });
+bindRange('bpm', v => { song.bpm = v; syncDelay(); });
 bindRange('swing', v => song.swing = v);
 bindRange('master', v => song.master = v);
 $('pitch').addEventListener('change', () => playVoice(sel, ctx.currentTime + 0.005));
@@ -942,11 +1022,24 @@ function setMode(m) {
   mode = m;
   $('modeSteps').classList.toggle('on', m === 'steps'); $('modeSteps').setAttribute('aria-pressed', String(m === 'steps'));
   $('modeKeys').classList.toggle('on', m === 'keys'); $('modeKeys').setAttribute('aria-pressed', String(m === 'keys'));
-  $('modeHint').textContent = m === 'keys' ? 'Play the pad chromatically' : 'Tap to toggle · hold for softer';
+  $('modeHint').hidden = m === 'keys'; $('octBox').hidden = m !== 'keys';
   renderSteps();
 }
 $('modeSteps').addEventListener('click', () => setMode('steps'));
 $('modeKeys').addEventListener('click', () => setMode('keys'));
+function setOctave(o) {
+  octave = Math.max(-3, Math.min(2, o));
+  $('octO').textContent = 'C' + (4 + octave);
+  $('octDn').disabled = octave === -3; $('octUp').disabled = octave === 2;
+  renderSteps();
+}
+$('octDn').addEventListener('click', () => setOctave(octave - 1));
+$('octUp').addEventListener('click', () => setOctave(octave + 1));
+document.querySelectorAll('.ktabs .chip').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('.ktabs .chip').forEach(x => { const on = x === c; x.classList.toggle('on', on); x.setAttribute('aria-selected', String(on)); });
+  ['sound', 'fx', 'song'].forEach(k => $('kt-' + k).hidden = k !== c.dataset.kt);
+}));
+$('fxReset').addEventListener('click', () => { const t = tracks[sel]; Object.assign(t, { filter: 0, reso: 0.2, drive: 0, crush: 0, delay: 0, verb: 0 }); applyFx(sel); renderSampleControls(); save(); });
 // computer keyboard: 1-8 pads, space play
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') return;
@@ -1155,6 +1248,8 @@ async function boot() {
     if (!restored) t.choke = s.choke;
   }
   if (!restored) seedDemo();
+  for (let i = 0; i < NT; i++) applyFx(i);
+  syncDelay();
   await loadLibrary();
   buildPads(); buildSteps(); buildMatrix();
   sizeCanvas(); renderAll();
