@@ -157,6 +157,44 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
 .sheet h2 { margin: 0; font-size: 17px; text-wrap: balance; }
 .sheet p { margin: 0; line-height: 1.45; font-size: 13px; color: #454958; }
 .sheet .row .k { flex: 1 1 140px; }
+.k.lib { grid-column: span 2; background: var(--shell-ink); color: var(--key); box-shadow: 0 3px 0 #11131a; }
+.sheet .card.tall { max-height: calc(100dvh - 32px); max-height: calc(100vh - 32px); }
+@supports (height: 100dvh) { .sheet .card.tall { max-height: calc(100dvh - 32px); } }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sheet-head .k { min-height: 36px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips.scroll { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; }
+.chips.scroll::-webkit-scrollbar { display: none; }
+.chip { flex: none; font-family: var(--f-ui); font-weight: 700; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 0; border-radius: 999px; padding: 8px 12px; background: var(--key); color: var(--shell-ink); box-shadow: 0 2px 0 var(--key-shadow); cursor: pointer; white-space: nowrap; }
+.chip.on { background: var(--shell-ink); color: var(--key); box-shadow: 0 2px 0 #11131a; }
+.chip.pad { min-width: 38px; background: var(--c); color: #1a1b22; box-shadow: 0 2px 0 color-mix(in srgb, var(--c) 55%, #000); }
+.chip.pad.on { outline: 3px solid var(--shell-ink); outline-offset: 1px; }
+.chip.add { background: transparent; box-shadow: 0 0 0 1.5px var(--key-shadow) inset; }
+.chip-sep { flex: none; align-self: center; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #6a6e7e; padding-left: 4px; }
+.chip:focus-visible, .snd button:focus-visible { outline: 3px solid var(--t5); outline-offset: 2px; }
+.lib-target { display: flex; flex-direction: column; gap: 6px; }
+#libPads { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+#libPads .chip { min-width: 0; padding: 9px 0; }
+.sheet .row .txt { flex: 2 1 120px; }
+.lib-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.lib-actions .k { min-height: 36px; font-size: 11px; flex: 1 1 auto; }
+.lib-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; min-height: 0; flex: 1 1 auto; margin-inline: -4px; padding: 2px 4px 4px; }
+.snd { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 6px; align-items: center; background: var(--key); border-radius: 12px; padding: 4px 4px 4px 4px; box-shadow: 0 2px 0 var(--key-shadow); }
+.snd.cur { box-shadow: 0 0 0 2px var(--shell-ink); }
+.snd-play { display: flex; align-items: center; gap: 10px; min-width: 0; border: 0; background: none; text-align: left; font-family: var(--f-ui); font-weight: 700; font-size: 13px; letter-spacing: .04em; color: var(--shell-ink); padding: 8px 6px; cursor: pointer; border-radius: 8px; }
+.snd-play .ico { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--shell-ink); color: var(--key); display: grid; place-items: center; font-size: 10px; }
+.snd-play .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.snd-play small { font-family: var(--f-px); font-size: 9px; color: #7a7e8e; font-weight: 400; flex: none; }
+.snd .load { min-height: 38px; font-size: 11px; padding: 0 12px; background: var(--c, var(--t3)); color: #1a1b22; box-shadow: 0 3px 0 color-mix(in srgb, var(--c, var(--t3)) 55%, #000); }
+.snd .more { min-height: 38px; min-width: 38px; padding: 0; font-size: 14px; }
+.snd-edit { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 2px 2px; }
+.snd-edit .txt { flex: 1 1 140px; }
+.snd-edit select { flex: 1 1 120px; }
+.snd-edit .k { min-height: 38px; font-size: 11px; }
+.k.danger { background: var(--rec); color: #fff; box-shadow: 0 3px 0 #a32634; }
+.txt, .sheet select { font-family: var(--f-ui); font-size: 16px; font-weight: 600; color: var(--shell-ink); background: #f7f8fb; border: 1.5px solid var(--key-shadow); border-radius: 10px; padding: 8px 10px; min-width: 0; min-height: 40px; }
+.txt:focus-visible, .sheet select:focus-visible { outline: 3px solid var(--t5); outline-offset: 1px; }
+.empty-note { font-size: 13px; color: #5a5e6e; line-height: 1.45; padding: 8px 4px; }
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--oled); color: var(--oled-ink); font-family: var(--f-px); font-size: 11px; padding: 9px 14px; border-radius: 10px; z-index: 20; max-width: calc(100% - 32px); text-align: center; }
 @media (max-width: 380px) {
   .transport { grid-template-columns: 1fr 1fr repeat(4, .7fr); gap: 6px; }
@@ -184,6 +222,8 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
   <div class="sampler">
     <button class="k mic" id="micBtn"><span class="led"></span><span id="micLabel">Record sample</span></button>
     <label class="k" title="Load an audio file onto the selected pad">File<input type="file" id="fileIn" accept="audio/*"></label>
+    <button class="k lib" id="libBtn" title="Browse kits and your saved sounds. You can also hold any pad.">Sound library</button>
+    <button class="k" id="saveBtn" title="Save this pad's sound into one of your banks">Save to bank</button>
     <button class="k" id="trimBtn" title="Cut silence from the start and end">Auto-trim</button>
     <button class="k" id="normBtn" title="Raise the level so the loudest point is near full scale">Normalize</button>
     <button class="k" id="revBtn" aria-pressed="false">Reverse</button>
@@ -214,7 +254,8 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
   <div class="matrix-wrap"><div class="matrix" id="matrix"></div></div>
 
   <div class="foot">
-    <span><b>Record:</b> pick a pad, tap Record sample, make a sound, tap again to stop. Silence is trimmed for you.</span>
+    <span><b>Record:</b> pick a pad, tap Record sample, make a sound, tap again to stop. Silence is trimmed, and every recording is kept in My Recordings.</span>
+    <span><b>Library:</b> hold any pad (or tap Sound library) to swap its sound. Stock sounds are always there to bring back.</span>
     <span><b>Stack:</b> every pad is its own track, so all eight play together. Tap a name in the grid to mute it.</span>
     <span><b>Keys:</b> play the selected sample chromatically. With Live on, what you play while the loop runs is written in.</span>
     <span>No sound on an iPhone? Turn the silent switch off.</span>
@@ -231,8 +272,30 @@ input[type=range]:focus-visible { outline: 2px solid var(--t5); border-radius: 4
     </div>
   </div>
 </div>
+<div class="sheet" id="libSheet" hidden>
+  <div class="card tall" role="dialog" aria-labelledby="libTitle">
+    <div class="sheet-head"><h2 id="libTitle">Sound library</h2><button class="k" id="libClose">Done</button></div>
+    <div class="lib-target"><span class="lbl">Load onto pad</span><div class="chips" id="libPads"></div></div>
+    <div class="chips scroll" id="libBanks"></div>
+    <div class="lib-actions" id="libActions"></div>
+    <div class="lib-list" id="libList"></div>
+  </div>
+</div>
+<div class="sheet" id="saveSheet" hidden>
+  <div class="card" role="dialog" aria-labelledby="saveTitle">
+    <div class="sheet-head"><h2 id="saveTitle">Save to a bank</h2><button class="k" id="saveCancel">Cancel</button></div>
+    <p id="saveWhat"></p>
+    <label class="lbl" for="saveName">Name</label>
+    <input class="txt" id="saveName" maxlength="16" autocomplete="off">
+    <span class="lbl">Bank</span>
+    <div class="chips" id="saveBanks"></div>
+    <div class="row"><input class="txt grow" id="newBankName" maxlength="20" placeholder="New bank name" autocomplete="off"><button class="k" id="newBankBtn">Add bank</button></div>
+    <button class="k play on" id="saveConfirm">Save sound</button>
+  </div>
+</div>
 <div class="toast" id="toast" hidden></div>
 
+<script src="sounds.js"></script>
 <script>
 (() => {
 'use strict';
@@ -253,31 +316,21 @@ const unlock = () => { if (ctx.state !== 'running') ctx.resume(); };
 document.addEventListener('pointerdown', unlock, true);
 document.addEventListener('keydown', unlock, true);
 
-// ---------- starter kit (synthesized, so the app plays before you record anything) ----------
-function synth(len, fn) {
-  const n = Math.floor(len * SR), d = new Float32Array(n);
-  const st = {};
-  for (let i = 0; i < n; i++) d[i] = fn(i / SR, st, i);
-  return d;
+// ---------- sound banks (factory kits are synthesized by sounds.js) ----------
+const FACT = window.ChompSounds(SR);
+const factCache = new Map();
+function makeBuffer(data, sr = SR) { const b = ctx.createBuffer(1, data.length, sr); b.copyToChannel(data, 0); return b; }
+function reversed(buf) { return makeBuffer(buf.getChannelData(0).slice().reverse(), buf.sampleRate); }
+const factoryBank = (id) => FACT.banks.find(b => b.id === id);
+function factoryBuffer(bankId, idx) {
+  const key = bankId + ':' + idx;
+  if (!factCache.has(key)) factCache.set(key, makeBuffer(FACT.make(bankId, idx)));
+  return factCache.get(key);
 }
-const rnd = () => Math.random() * 2 - 1;
-function hp(state, key, x, a) { const p = state[key] || [0, 0]; const y = a * (p[1] + x - p[0]); state[key] = [x, y]; return y; }
-function lp(state, key, x, a) { const y = (state[key] || 0) + a * (x - (state[key] || 0)); state[key] = y; return y; }
-const KIT = [
-  ['KICK', () => synth(0.5, (t, s) => { s.ph = (s.ph || 0) + 2 * Math.PI * (45 + 110 * Math.exp(-t * 28)) / SR; return Math.sin(s.ph) * Math.exp(-t * 7) * 0.95 + (t < 0.004 ? rnd() * 0.3 : 0); })],
-  ['SNARE', () => synth(0.3, (t, s) => { const n = hp(s, 'h', rnd(), 0.85) * Math.exp(-t * 16); s.ph = (s.ph || 0) + 2 * Math.PI * 185 / SR; return (n * 0.7 + Math.sin(s.ph) * Math.exp(-t * 30) * 0.5); })],
-  ['HAT', () => synth(0.09, (t, s) => hp(s, 'h', rnd(), 0.5) * Math.exp(-t * 55) * 0.8)],
-  ['CLAP', () => synth(0.35, (t, s) => { const b = [0, 0.011, 0.022].some(o => t >= o && t < o + 0.008) ? 1 : 0; const env = b ? 1 : (t > 0.022 ? Math.exp(-(t - 0.03) * 14) : 0); return lp(s, 'l', hp(s, 'h', rnd(), 0.9), 0.5) * env * 0.9; })],
-  ['TOM', () => synth(0.35, (t, s) => { s.ph = (s.ph || 0) + 2 * Math.PI * (150 + 80 * Math.exp(-t * 12)) / SR; return Math.sin(s.ph) * Math.exp(-t * 9) * 0.8; })],
-  ['BASS', () => synth(0.6, (t, s) => { s.ph = ((s.ph || 0) + 55 / SR) % 1; return lp(s, 'l', (s.ph * 2 - 1), 0.06 + 0.2 * Math.exp(-t * 10)) * Math.min(1, t * 400) * Math.exp(-t * 3) * 1.1; })],
-  ['CHORD', () => synth(1.1, (t) => { const f = [261.63, 329.63, 392.0, 493.88]; let v = 0; for (const x of f) v += Math.sin(2 * Math.PI * x * t) + 0.3 * Math.sin(4 * Math.PI * x * t); return v * 0.16 * Math.min(1, t * 200) * Math.exp(-t * 2.6); })],
-  ['BELL', () => synth(1.0, (t) => Math.sin(2 * Math.PI * 880 * t + 2.2 * Math.exp(-t * 5) * Math.sin(2 * Math.PI * 1232 * t)) * Math.exp(-t * 4) * 0.6)],
-];
-function makeBuffer(data) { const b = ctx.createBuffer(1, data.length, SR); b.copyToChannel(data, 0); return b; }
-function reversed(buf) { const d = buf.getChannelData(0).slice().reverse(); return makeBuffer(d); }
 
 // ---------- state ----------
-const tracks = KIT.map(([name], i) => ({ name, vol: 0.9, pitch: 0, pan: 0, start: 0, end: 1, reverse: false, choke: i === 5 || i === 6, mute: false, custom: false, buf: null, rbuf: null, peaks: null }));
+const freshTrack = (i) => ({ name: '', vol: 0.9, pitch: 0, pan: 0, start: 0, end: 1, reverse: false, choke: false, mute: false, custom: false, src: { k: 'f', bank: 'basics', i }, buf: null, rbuf: null, peaks: null });
+const tracks = Array.from({ length: NT }, (_, i) => freshTrack(i));
 const emptyPattern = () => Array.from({ length: NT }, () => Array(NS).fill(null));
 let patterns = Array.from({ length: NP }, emptyPattern);
 const song = { bpm: 96, swing: 0.12, master: 0.85, pat: 0 };
@@ -293,6 +346,22 @@ function setBuffer(i, audioBuf) {
   const t = tracks[i];
   t.buf = audioBuf; t.rbuf = reversed(audioBuf); t.peaks = null;
 }
+// put a sound on a pad; the pad keeps its steps, mute and pan
+function assignPad(i, buf, info) {
+  setBuffer(i, buf);
+  Object.assign(tracks[i], { name: info.name, src: info.src, custom: info.custom, start: 0, end: 1, reverse: false, pitch: 0, vol: 0.9, choke: !!info.choke });
+}
+function loadFactoryToPad(i, bankId, idx) {
+  const s = factoryBank(bankId).sounds[idx];
+  assignPad(i, factoryBuffer(bankId, idx), { name: s.name, src: { k: 'f', bank: bankId, i: idx }, custom: false, choke: s.choke });
+  kv('del', 'sample' + i).catch(() => {});
+  save();
+}
+function loadUserToPad(i, us) {
+  assignPad(i, makeBuffer(us.data.slice(), us.sr), { name: us.name, src: { k: 'u', id: us.id }, custom: true, choke: us.choke });
+  autoTrim(i);
+  saveSample(i);
+}
 
 // ---------- persistence (IndexedDB, this phone only) ----------
 let dbp = null;
@@ -300,8 +369,12 @@ function db() {
   if (dbp) return dbp;
   dbp = new Promise((res, rej) => {
     try {
-      const r = indexedDB.open('chomp-pocket', 1);
-      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      const r = indexedDB.open('chomp-pocket', 2);
+      r.onupgradeneeded = () => {
+        const d = r.result;
+        if (!d.objectStoreNames.contains('kv')) d.createObjectStore('kv');
+        if (!d.objectStoreNames.contains('sounds')) d.createObjectStore('sounds', { keyPath: 'id' });
+      };
       r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
     } catch (e) { rej(e); }
   });
@@ -316,18 +389,63 @@ async function kv(op, key, val) {
     r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
   });
 }
+async function soundStore(op, val) {
+  const d = await db();
+  return new Promise((res, rej) => {
+    const tx = d.transaction('sounds', op === 'all' ? 'readonly' : 'readwrite');
+    const st = tx.objectStore('sounds');
+    const r = op === 'all' ? st.getAll() : op === 'del' ? st.delete(val) : st.put(val);
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+}
+
+// ---------- your banks ----------
+const REC_BANK = 'rec';
+let banks = [{ id: REC_BANK, name: 'My Recordings' }];
+let userSounds = [];
+const uid = (p) => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+function ensureRecBank() { if (!banks.some(b => b.id === REC_BANK)) { banks.unshift({ id: REC_BANK, name: 'My Recordings' }); saveBanks(); } }
+function saveBanks() { kv('put', 'banks', banks).catch(() => {}); }
+async function addUserSound(bankId, name, data, sr, choke = false) {
+  const us = { id: uid('s'), bank: bankId, name, sr, data, choke, created: Date.now() };
+  userSounds.push(us);
+  try { await soundStore('put', us); } catch (e) { toast("Couldn't save to your library (storage is blocked)"); }
+  return us;
+}
+function updateUserSound(us) { soundStore('put', us).catch(() => {}); }
+function deleteUserSound(us) { userSounds = userSounds.filter(x => x !== us); soundStore('del', us.id).catch(() => {}); }
+const soundsIn = (bankId) => userSounds.filter(u => u.bank === bankId).sort((a, b) => a.created - b.created);
+async function loadLibrary() {
+  try {
+    const b = await kv('get', 'banks'); if (Array.isArray(b) && b.length) banks = b;
+    userSounds = (await soundStore('all')) || [];
+    if (!(await kv('get', 'libv'))) {
+      // first run with the library: keep any recordings already on pads
+      ensureRecBank();
+      for (const t of tracks) if (t.custom && t.buf) { const us = await addUserSound(REC_BANK, t.name, t.buf.getChannelData(0).slice(), t.buf.sampleRate); t.src = { k: 'u', id: us.id }; }
+      await kv('put', 'libv', 1); saveBanks();
+    }
+  } catch (e) {}
+}
+
 let saveTimer = null;
 function save() {
   clearTimeout(saveTimer);
   $('saveState').textContent = 'Saving…';
-  saveTimer = setTimeout(async () => {
-    try {
-      const state = { v: 1, song, patterns, tracks: tracks.map(({ buf, rbuf, peaks, ...rest }) => rest) };
-      await kv('put', 'state', state);
-      $('saveState').textContent = 'Saved';
-    } catch (e) { $('saveState').textContent = 'Not saved (storage blocked)'; }
-  }, 500);
+  saveTimer = setTimeout(flushSave, 500);
 }
+async function flushSave() {
+  clearTimeout(saveTimer); saveTimer = null;
+  try {
+    const state = { v: 1, song, patterns, tracks: tracks.map(({ buf, rbuf, peaks, ...rest }) => rest) };
+    await kv('put', 'state', state);
+    $('saveState').textContent = 'Saved';
+  } catch (e) { $('saveState').textContent = 'Not saved (storage blocked)'; }
+}
+// write right away if the app is being closed or backgrounded
+const flushIfPending = () => { if (saveTimer) flushSave(); };
+window.addEventListener('pagehide', flushIfPending);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushIfPending(); });
 async function saveSample(i) {
   try {
     const b = tracks[i].buf;
@@ -343,6 +461,7 @@ async function load() {
     patterns = st.patterns;
     for (let i = 0; i < NT; i++) {
       Object.assign(tracks[i], st.tracks[i]);
+      if (!tracks[i].src) tracks[i].src = { k: 'f', bank: 'basics', i };
       if (tracks[i].custom) {
         const s = await kv('get', 'sample' + i);
         if (s) { const b = ctx.createBuffer(1, s.data.length, s.sr); b.copyToChannel(s.data, 0); setBuffer(i, b); }
@@ -537,7 +656,11 @@ function buildPads() {
     const b = document.createElement('button');
     b.className = 'pad'; b.style.setProperty('--c', `var(${COLORS[i]})`);
     b.innerHTML = `<span class="n">${i + 1}</span><span class="tag"></span><span class="nm"></span>`;
-    b.addEventListener('pointerdown', (e) => { e.preventDefault(); selectTrack(i); trigger(i); });
+    let holdT = null;
+    b.addEventListener('pointerdown', (e) => { e.preventDefault(); selectTrack(i); trigger(i); holdT = setTimeout(() => { holdT = null; openLibrary(i); }, 550); });
+    const cancelHold = () => { if (holdT) { clearTimeout(holdT); holdT = null; } };
+    b.addEventListener('pointerup', cancelHold); b.addEventListener('pointerleave', cancelHold); b.addEventListener('pointercancel', cancelHold);
+    b.addEventListener('contextmenu', (e) => e.preventDefault());
     b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTrack(i); trigger(i); } });
     padsEl.appendChild(b);
   });
@@ -547,7 +670,7 @@ function renderPads() {
     const t = tracks[i];
     b.classList.toggle('sel', i === sel); b.classList.toggle('empty', !t.buf); b.classList.toggle('muted', t.mute);
     b.querySelector('.nm').textContent = t.name;
-    b.querySelector('.tag').textContent = t.custom ? 'MIC' : '';
+    b.querySelector('.tag').textContent = t.custom ? '●' : '';
     b.setAttribute('aria-label', `Pad ${i + 1}, ${t.name}${t.mute ? ', muted' : ''}`);
   });
 }
@@ -698,7 +821,6 @@ function toMono(ab) {
   for (let c = 0; c < ab.numberOfChannels; c++) { const d = ab.getChannelData(c); for (let j = 0; j < n; j++) out[j] += d[j] / ab.numberOfChannels; }
   const b = ctx.createBuffer(1, n, ab.sampleRate); b.copyToChannel(out, 0); return b;
 }
-let recCount = 0;
 async function loadArrayBuffer(arr, name) {
   unlock();
   let ab;
@@ -707,9 +829,12 @@ async function loadArrayBuffer(arr, name) {
   const maxLen = 30 * ab.sampleRate;
   let mono = toMono(ab);
   if (mono.length > maxLen) { const d = mono.getChannelData(0).slice(0, maxLen); mono = ctx.createBuffer(1, maxLen, ab.sampleRate); mono.copyToChannel(d, 0); toast('Kept the first 30 seconds'); }
+  if (!name) name = 'REC ' + (soundsIn(REC_BANK).length + 1);
+  ensureRecBank();
+  const us = await addUserSound(REC_BANK, name, mono.getChannelData(0).slice(), mono.sampleRate);
   const t = tracks[sel];
   setBuffer(sel, mono);
-  t.custom = true; t.name = name; t.start = 0; t.end = 1; t.reverse = false; t.pitch = 0;
+  t.custom = true; t.name = name; t.src = { k: 'u', id: us.id }; t.start = 0; t.end = 1; t.reverse = false; t.pitch = 0;
   autoTrim(sel);
   await saveSample(sel);
   renderAll();
@@ -738,7 +863,7 @@ async function toggleMic() {
     stream.getTracks().forEach(tr => tr.stop()); srcNode.disconnect(); meter = null; rec = null;
     $('micBtn').classList.remove('on'); $('micLabel').textContent = 'Record sample';
     const blob = new Blob(chunks, { type: mr.mimeType || mime || 'audio/webm' });
-    await loadArrayBuffer(await blob.arrayBuffer(), 'REC ' + (++recCount));
+    await loadArrayBuffer(await blob.arrayBuffer(), null);
   };
   rec = { mr, limit: setTimeout(() => mr.state === 'recording' && mr.stop(), 15000) };
   mr.start();
@@ -746,11 +871,11 @@ async function toggleMic() {
 }
 function openSheet() { $('micSheet').hidden = false; }
 function closeSheet() { $('micSheet').hidden = true; }
-async function onFile(e, label) {
+async function onFile(e, label, isRec) {
   const f = e.target.files && e.target.files[0]; e.target.value = '';
   closeSheet();
   if (!f) return;
-  const nm = label || (f.name || 'FILE').replace(/\.[^.]+$/, '').toUpperCase().slice(0, 10);
+  const nm = isRec ? null : label || (f.name || 'FILE').replace(/\.[^.]+$/, '').toUpperCase().slice(0, 12);
   await loadArrayBuffer(await f.arrayBuffer(), nm);
 }
 
@@ -791,7 +916,7 @@ document.querySelectorAll('.pat').forEach(b => {
 });
 $('micBtn').addEventListener('click', toggleMic);
 $('fileIn').addEventListener('change', (e) => onFile(e));
-$('captureIn').addEventListener('change', (e) => onFile(e, 'REC ' + (++recCount)));
+$('captureIn').addEventListener('change', (e) => onFile(e, null, true));
 $('sheetClose').addEventListener('click', closeSheet);
 $('micSheet').addEventListener('click', (e) => { if (e.target.id === 'micSheet') closeSheet(); });
 $('trimBtn').addEventListener('click', () => { autoTrim(sel); save(); playVoice(sel, ctx.currentTime + 0.005); });
@@ -832,6 +957,183 @@ document.addEventListener('keydown', (e) => {
 let toastT = null;
 function toast(msg) { const t = $('toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
 
+// ---------- sound library ----------
+let libTarget = 0, libBank = 'basics', libEdit = null, libConfirm = null;
+let previewSrc = null;
+function preview(buf) {
+  unlock();
+  try { previewSrc?.stop(); } catch (e) {}
+  const s = ctx.createBufferSource(), g = ctx.createGain();
+  s.buffer = buf; g.gain.value = 0.9; s.connect(g).connect(masterGain); s.start();
+  previewSrc = s;
+}
+const fmtLen = (n, sr) => (n / sr).toFixed(n / sr < 10 ? 2 : 1) + 's';
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+function openLibrary(i) {
+  libTarget = i; libEdit = null; libConfirm = null;
+  const src = tracks[i].src;
+  if (src?.k === 'f') libBank = src.bank;
+  else if (src?.k === 'u') libBank = userSounds.find(u => u.id === src.id)?.bank || REC_BANK;
+  if (!factoryBank(libBank) && !banks.some(b => b.id === libBank)) libBank = 'basics';
+  $('libSheet').hidden = false;
+  renderLibrary();
+  $('libList').querySelector('.cur')?.scrollIntoView({ block: 'nearest' });
+}
+function closeLibrary() { $('libSheet').hidden = true; try { previewSrc?.stop(); } catch (e) {} }
+function isCurrent(src) { const s = tracks[libTarget].src; return s && src && s.k === src.k && (s.k === 'f' ? s.bank === src.bank && s.i === src.i : s.id === src.id); }
+function afterLoad(i) {
+  renderAll(); flashPad(i); playVoice(i, ctx.currentTime + 0.01);
+  toast(tracks[i].name + ' is on pad ' + (i + 1));
+  renderLibrary();
+}
+function renderLibrary() {
+  // pad targets
+  const pads = $('libPads'); pads.innerHTML = '';
+  tracks.forEach((t, i) => {
+    const c = el('button', 'chip pad' + (i === libTarget ? ' on' : ''), String(i + 1));
+    c.style.setProperty('--c', `var(${COLORS[i]})`);
+    c.setAttribute('aria-label', `Pad ${i + 1}, ${t.name}`); c.setAttribute('aria-pressed', String(i === libTarget));
+    c.addEventListener('click', () => { libTarget = i; selectTrack(i); libEdit = null; renderLibrary(); });
+    pads.appendChild(c);
+  });
+  // bank tabs
+  const tabs = $('libBanks'); tabs.innerHTML = '';
+  const tab = (id, name) => { const c = el('button', 'chip' + (id === libBank ? ' on' : ''), name); c.setAttribute('aria-pressed', String(id === libBank)); c.addEventListener('click', () => { libBank = id; libEdit = null; libConfirm = null; renderLibrary(); }); tabs.appendChild(c); return c; };
+  FACT.banks.forEach(b => tab(b.id, b.name));
+  tabs.appendChild(el('span', 'chip-sep', 'Yours'));
+  banks.forEach(b => tab(b.id, b.name + ' · ' + soundsIn(b.id).length));
+  const add = el('button', 'chip add', '+ New bank');
+  add.addEventListener('click', () => { libBank = '__new'; renderLibrary(); });
+  tabs.appendChild(add);
+  tabs.querySelector('.chip.on')?.scrollIntoView({ inline: 'nearest', block: 'nearest' });
+  // actions + list
+  const acts = $('libActions'), list = $('libList');
+  acts.innerHTML = ''; list.innerHTML = '';
+  const color = `var(${COLORS[libTarget]})`;
+  if (libBank === '__new') {
+    const inp = el('input', 'txt grow'); inp.id = 'libNewBank'; inp.placeholder = 'Name your bank'; inp.maxLength = 20;
+    const ok = el('button', 'k', 'Create');
+    const create = () => { const n = inp.value.trim(); if (!n) { inp.focus(); return; } const b = { id: uid('b'), name: n }; banks.push(b); saveBanks(); libBank = b.id; renderLibrary(); };
+    ok.addEventListener('click', create); inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') create(); });
+    acts.append(inp, ok);
+    list.appendChild(el('p', 'empty-note', 'Banks hold sounds you save. Fill one with Save to bank on the main screen, or move recordings into it.'));
+    setTimeout(() => inp.focus(), 50);
+    return;
+  }
+  const fb = factoryBank(libBank);
+  if (fb) {
+    const all = el('button', 'k', 'Load whole kit onto pads 1–8');
+    all.addEventListener('click', () => { fb.sounds.forEach((_, j) => loadFactoryToPad(j, fb.id, j)); renderAll(); flashPad(0); toast(fb.name + ' loaded. Your steps are unchanged.'); renderLibrary(); });
+    acts.appendChild(all);
+    fb.sounds.forEach((s, j) => {
+      const src = { k: 'f', bank: fb.id, i: j };
+      list.appendChild(soundRow(s.name, null, () => preview(factoryBuffer(fb.id, j)), () => { loadFactoryToPad(libTarget, fb.id, j); afterLoad(libTarget); }, isCurrent(src), color));
+    });
+    return;
+  }
+  const ub = banks.find(b => b.id === libBank);
+  const items = soundsIn(ub.id);
+  if (items.length) {
+    const all = el('button', 'k', items.length >= 8 ? 'Load first 8 onto pads 1–8' : items.length === 1 ? 'Load onto pad 1' : `Load all onto pads 1–${items.length}`);
+    all.addEventListener('click', () => { items.slice(0, 8).forEach((u, j) => loadUserToPad(j, u)); renderAll(); toast(ub.name + ' loaded. Your steps are unchanged.'); renderLibrary(); });
+    acts.appendChild(all);
+  }
+  const ren = el('button', 'k', 'Rename');
+  ren.addEventListener('click', () => { libEdit = libEdit === 'bank' ? null : 'bank'; renderLibrary(); });
+  const delKey = 'bank:' + ub.id;
+  const del = el('button', 'k' + (libConfirm === delKey ? ' danger' : ''), libConfirm === delKey ? `Delete ${items.length} sound${items.length === 1 ? '' : 's'}?` : 'Delete bank');
+  del.addEventListener('click', () => {
+    if (libConfirm !== delKey) { libConfirm = delKey; renderLibrary(); return; }
+    items.forEach(deleteUserSound); banks = banks.filter(b => b !== ub); saveBanks();
+    libConfirm = null; libBank = 'basics'; toast('Bank deleted'); renderLibrary();
+  });
+  acts.append(ren, del);
+  if (libEdit === 'bank') {
+    const row = el('div', 'snd-edit'); const inp = el('input', 'txt'); inp.value = ub.name; inp.maxLength = 20; inp.setAttribute('aria-label', 'Bank name');
+    const ok = el('button', 'k', 'Save name');
+    const doIt = () => { const n = inp.value.trim(); if (n) { ub.name = n; saveBanks(); } libEdit = null; renderLibrary(); };
+    ok.addEventListener('click', doIt); inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') doIt(); });
+    row.append(inp, ok); acts.appendChild(row);
+  }
+  if (!items.length) {
+    list.appendChild(el('p', 'empty-note', ub.id === REC_BANK ? 'Nothing recorded yet. Every sound you record or import lands here automatically.' : 'This bank is empty. On the main screen, pick a pad and tap Save to bank to add its sound here.'));
+    return;
+  }
+  items.forEach(u => {
+    const row = soundRow(u.name, fmtLen(u.data.length, u.sr), () => preview(makeBuffer(u.data, u.sr)), () => { loadUserToPad(libTarget, u); afterLoad(libTarget); }, isCurrent({ k: 'u', id: u.id }), color);
+    const more = el('button', 'k more', '⋯'); more.setAttribute('aria-label', 'Rename, move or delete ' + u.name);
+    more.addEventListener('click', () => { libEdit = libEdit === u.id ? null : u.id; libConfirm = null; renderLibrary(); });
+    row.appendChild(more);
+    if (libEdit === u.id) {
+      const ed = el('div', 'snd-edit');
+      const inp = el('input', 'txt'); inp.value = u.name; inp.maxLength = 16; inp.setAttribute('aria-label', 'Sound name');
+      inp.addEventListener('change', () => { const n = inp.value.trim().toUpperCase(); if (n) { u.name = n; updateUserSound(u); tracks.forEach((t, i) => { if (t.src?.k === 'u' && t.src.id === u.id) { t.name = n; } }); renderPads(); renderMatrix(); save(); renderLibrary(); } });
+      const selB = el('select'); selB.setAttribute('aria-label', 'Move to bank');
+      banks.forEach(b => { const o = el('option', null, b.name); o.value = b.id; o.selected = b.id === u.bank; selB.appendChild(o); });
+      selB.addEventListener('change', () => { u.bank = selB.value; updateUserSound(u); libEdit = null; toast('Moved to ' + banks.find(b => b.id === u.bank).name); renderLibrary(); });
+      const dk = 'snd:' + u.id;
+      const del = el('button', 'k' + (libConfirm === dk ? ' danger' : ''), libConfirm === dk ? 'Tap again to delete' : 'Delete');
+      del.addEventListener('click', () => { if (libConfirm !== dk) { libConfirm = dk; renderLibrary(); return; } deleteUserSound(u); libConfirm = null; libEdit = null; toast(u.name + ' deleted. Pads using it keep their copy.'); renderLibrary(); });
+      ed.append(inp, selB, del);
+      row.appendChild(ed);
+    }
+    list.appendChild(row);
+  });
+}
+function soundRow(name, meta, onPlay, onLoad, current, color) {
+  const row = el('div', 'snd' + (current ? ' cur' : ''));
+  row.style.setProperty('--c', color);
+  const play = el('button', 'snd-play');
+  play.append(el('span', 'ico', '▶'), el('span', 'nm', name));
+  if (meta) play.appendChild(el('small', null, meta));
+  if (current) play.appendChild(el('small', null, 'ON PAD'));
+  play.setAttribute('aria-label', 'Preview ' + name);
+  play.addEventListener('click', onPlay);
+  const load = el('button', 'k load', 'Load → ' + (libTarget + 1));
+  load.setAttribute('aria-label', `Load ${name} onto pad ${libTarget + 1}`);
+  load.addEventListener('click', onLoad);
+  row.append(play, load);
+  if (!meta) row.style.gridTemplateColumns = 'minmax(0,1fr) auto';
+  return row;
+}
+$('libBtn').addEventListener('click', () => openLibrary(sel));
+$('libClose').addEventListener('click', closeLibrary);
+$('libSheet').addEventListener('click', (e) => { if (e.target.id === 'libSheet') closeLibrary(); });
+
+// ---------- save a pad's sound into a bank ----------
+let saveBankSel = REC_BANK;
+function openSave() {
+  const t = tracks[sel];
+  if (!t.buf) { toast('This pad is empty'); return; }
+  ensureRecBank();
+  $('saveName').value = t.name;
+  $('saveWhat').textContent = `Saves pad ${sel + 1} as you hear it now (trimmed${t.reverse ? ' and reversed' : ''}). Volume, pitch and steps stay on the pad.`;
+  if (!banks.some(b => b.id === saveBankSel)) saveBankSel = banks[banks.length - 1].id;
+  renderSaveBanks();
+  $('saveSheet').hidden = false;
+}
+function renderSaveBanks() {
+  const box = $('saveBanks'); box.innerHTML = '';
+  banks.forEach(b => { const c = el('button', 'chip' + (b.id === saveBankSel ? ' on' : ''), b.name); c.setAttribute('aria-pressed', String(b.id === saveBankSel)); c.addEventListener('click', () => { saveBankSel = b.id; renderSaveBanks(); }); box.appendChild(c); });
+}
+$('saveBtn').addEventListener('click', openSave);
+$('saveCancel').addEventListener('click', () => $('saveSheet').hidden = true);
+$('saveSheet').addEventListener('click', (e) => { if (e.target.id === 'saveSheet') $('saveSheet').hidden = true; });
+$('newBankBtn').addEventListener('click', () => {
+  const n = $('newBankName').value.trim(); if (!n) { $('newBankName').focus(); return; }
+  const b = { id: uid('b'), name: n }; banks.push(b); saveBanks(); saveBankSel = b.id; $('newBankName').value = ''; renderSaveBanks();
+});
+$('saveConfirm').addEventListener('click', async () => {
+  const t = tracks[sel], d = t.buf.getChannelData(0);
+  const a = Math.floor(t.start * d.length), z = Math.max(a + 1, Math.floor(t.end * d.length));
+  const data = d.slice(a, z); if (t.reverse) data.reverse();
+  const name = ($('saveName').value.trim() || t.name || 'SOUND').toUpperCase().slice(0, 16);
+  const us = await addUserSound(saveBankSel, name, data, t.buf.sampleRate, t.choke);
+  t.src = { k: 'u', id: us.id }; t.name = name; save(); renderAll();
+  $('saveSheet').hidden = true;
+  toast(name + ' saved to ' + banks.find(b => b.id === saveBankSel).name);
+});
+
 // ---------- frame loop ----------
 function frame() {
   while (visQ.length && visQ[0].time <= ctx.currentTime) { const v = visQ.shift(); playhead = v.step; playheadTime = v.time; }
@@ -842,9 +1144,18 @@ function frame() {
 
 // ---------- boot ----------
 async function boot() {
-  KIT.forEach(([, fn], i) => setBuffer(i, makeBuffer(fn())));
   const restored = await load();
+  for (let i = 0; i < NT; i++) {
+    const t = tracks[i];
+    if (t.buf) continue;
+    const src = t.src?.k === 'f' && factoryBank(t.src.bank) ? t.src : { k: 'f', bank: 'basics', i };
+    const s = factoryBank(src.bank).sounds[src.i];
+    t.src = src; t.custom = false; setBuffer(i, factoryBuffer(src.bank, src.i));
+    if (!t.name) t.name = s.name;
+    if (!restored) t.choke = s.choke;
+  }
   if (!restored) seedDemo();
+  await loadLibrary();
   buildPads(); buildSteps(); buildMatrix();
   sizeCanvas(); renderAll();
   window.addEventListener('resize', sizeCanvas);
